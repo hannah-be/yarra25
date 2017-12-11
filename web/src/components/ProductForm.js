@@ -1,16 +1,12 @@
-import React from 'react'
+import React from "react"
 
-function ProductForm({
-  initialProduct = {},
-  submitTitle,
-  onSubmit
-}) {
+function ProductForm({ initialProduct = {}, submitTitle, onSubmit }) {
   return (
     <form
-      onSubmit={ (event) => {
+      onSubmit={event => {
         // Prevent old-school form submission
         event.preventDefault()
-        
+
         const form = event.target
         const elements = form.elements // Allows looking up fields using their 'name' attributes
         // Get entered values from fields
@@ -19,31 +15,20 @@ function ProductForm({
 
         // Pass this information along to the parent component
         onSubmit({ brandName, name })
-      } }
-    >
-      <label
-        className='mb-2'
-      >
-        {'Brand name: '}
+      }}>
+      <label className="mb-2">
+        {"Brand name: "}
         <input
-          type='text'
-          name='brandName'
-          defaultValue={ initialProduct.brandName }
+          type="text"
+          name="brandName"
+          defaultValue={initialProduct.brandName}
         />
       </label>
-      <label
-        className='mb-2'
-      >
-        {'Name: '}
-        <input
-          type='text'
-          name='name'
-          defaultValue={ initialProduct.name }
-        />
+      <label className="mb-2">
+        {"Name: "}
+        <input type="text" name="name" defaultValue={initialProduct.name} />
       </label>
-      <button>
-        { submitTitle }
-      </button>
+      <button>{submitTitle}</button>
     </form>
   )
 }

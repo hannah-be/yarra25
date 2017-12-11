@@ -1,13 +1,12 @@
-import decodeJWT from 'jwt-decode'
+import decodeJWT from "jwt-decode"
 
-const key = 'userToken'
+const key = "userToken"
 
 export function rememberToken(token) {
   if (token) {
     // Remember the token
     localStorage.setItem(key, token)
-  }
-  else {
+  } else {
     // Clear the remembered token: sign out
     localStorage.removeItem(key)
   }
@@ -24,8 +23,7 @@ export function getValidToken() {
     }
     // Valid token
     return token
-  }
-  catch (error) {
+  } catch (error) {
     // Invalid token
     return null
   }
@@ -35,8 +33,7 @@ export function getDecodedToken() {
   const validToken = getValidToken()
   if (validToken) {
     return decodeJWT(validToken)
-  }
-  else {
+  } else {
     return null
   }
 }

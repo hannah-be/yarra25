@@ -12,7 +12,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.4.0"
+    "passport-local-mongoose": "^4.4.0",
+    "prettier": "^1.9.1"
   },
   "devDependencies": {
     "nodemon": "^1.12.5"
@@ -21,6 +22,7 @@
     "dev": "nodemon server.js",
     "seed": "node models/seeds.js",
     "drop": "node models/drop.js",
-    "reset": "npm run drop && npm run seed"
+    "reset": "npm run drop && npm run seed",
+    "prettier": "prettier --no-semi --jsx-bracket-same-line --write \"./src/**/*.js\""
   }
 }
