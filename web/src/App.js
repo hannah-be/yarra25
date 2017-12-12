@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import "./App.css"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
 import SignInForm from "./components/SignInForm"
 import SignUpForm from "./components/SignUpForm"
 import ProductList from "./components/ProductList"
@@ -14,6 +14,7 @@ import {
   addProductToWishlist,
   removeProductFromWishlist
 } from "./api/wishlist"
+import PrimaryNav from './components/PrimaryNav'
 
 class App extends Component {
   state = {
@@ -92,9 +93,18 @@ class App extends Component {
     const { decodedToken, products, editedProductID, wishlist } = this.state
     const signedIn = !!decodedToken
 
+    const requireAuth = (render) => (props) => (
+      (!signedIn) ? (
+        <Redirect to='/signin' />
+      ) : (
+        render(props)
+      )
+    )
+
     return (
       <Router>
         <div className="App">
+        <PrimaryNav signedIn={ signedIn } />
           <Route
             path="/"
             exact
@@ -129,7 +139,7 @@ class App extends Component {
               </Fragment>
             )}
           />
-          <Route path='/account' exact render={ () => (
+          <Route path='/account' exact render={ requireAuth(() => (
             <Fragment>
               <div className="mb-3">
                 <p>Email: {decodedToken.email}</p>
@@ -142,7 +152,7 @@ class App extends Component {
                 <button onClick={this.onSignOut}>Sign Out</button>
               </div>
             </Fragment>
-          )} />
+          ))} />
          
          <Route path='/products' exact render={ () => (
            <Fragment>
@@ -168,7 +178,7 @@ class App extends Component {
          )}
           />   
         
-        <Route path='/admin/products' exact render={ () => (
+        <Route path='/admin/products' exact render={ requireAuth(() => (
           <Fragment>
             {signedIn && (
               <div className="mb-3">
@@ -180,16 +190,15 @@ class App extends Component {
               </div>
             )}
           </Fragment>
-        )}
+        ))}
         />
           
           <Route
             path="/wishlist"
             exact
-            render={() => (
+            render={ requireAuth(() => (
               <Fragment>
-                {signedIn &&
-                  wishlist && (
+                {wishlist && (
                     <Wishlist
                       products={wishlist.products}
                       onRemoveProductFromWishlist={
@@ -198,7 +207,7 @@ class App extends Component {
                     />
                   )}
               </Fragment>
-            )}
+            ))}
           />
         </div>
       </Router>

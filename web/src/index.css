@@ -31,12 +31,25 @@ input {
 }
 button {
   padding: 0.333rem 0.5rem;
-  background-color: orange;
+  background-color: aliceblue;
   border: none;
 }
 button.small {
   font-size: 0.75rem;
   padding: 0.25rem 0.333rem;
+}
+
+nav.primary ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 0.666rem;
+}
+
+nav.primary a {
+  display: block;
+  padding: 0.4rem;
 }
 
 .mb-1 { margin-bottom: 0.25rem }
