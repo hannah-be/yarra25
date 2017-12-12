@@ -6,6 +6,7 @@ import SignUpForm from "./components/SignUpForm"
 import ProductList from "./components/ProductList"
 import ProductForm from "./components/ProductForm"
 import Wishlist from "./components/Wishlist"
+import Error from './components/Error'
 import { signIn, signUp, signOutNow } from "./api/auth"
 import { getDecodedToken } from "./api/token"
 import { listProducts, createProduct, updateProduct } from "./api/products"
@@ -29,12 +30,19 @@ class App extends Component {
     signIn({ email, password }).then(decodedToken => {
       this.setState({ decodedToken })
     })
+    .catch((error) => {
+      this.setState({error})
+    })
   }
 
   onSignUp = ({ email, password, firstName, lastName }) => {
-    signUp({ email, password, firstName, lastName }).then(decodedToken => {
-      this.setState({ decodedToken })
-    })
+    signUp({ email, password, firstName, lastName })
+      .then(decodedToken => {
+        this.setState({ decodedToken });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
   onSignOut = () => {
@@ -65,29 +73,36 @@ class App extends Component {
         // Replace in existing products array
         const updatedProducts = prevState.products.map(product => {
           if (product._id === updatedProduct._id) {
-            return updatedProduct
+            return updatedProduct;
           } else {
-            return product
+            return product;
           }
-        })
-        return {
-          products: updatedProducts,
-          editedProductID: null
-        }
-      })
+        });
+        return { products: updatedProducts, editedProductID: null };
+      }).catch(error => {
+        this.setState({ error });
+      });
     })
   }
 
   onAddProductToWishlist = productID => {
-    addProductToWishlist(productID).then(wishlist => {
-      this.setState({ wishlist })
-    })
+    addProductToWishlist(productID)
+      .then(wishlist => {
+        this.setState({ wishlist });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
   onRemoveProductFromWishlist = productID => {
-    removeProductFromWishlist(productID).then(wishlist => {
-      this.setState({ wishlist })
-    })
+    removeProductFromWishlist(productID)
+      .then(wishlist => {
+        this.setState({ wishlist });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
   render() {
@@ -106,8 +121,9 @@ class App extends Component {
       <Router>
         <div className="App">
         <PrimaryNav signedIn={ signedIn } />
+
         { error && 
-        <p>{error.message}</p>
+        <Error error={ error } />
         }
           <Route
             path="/"
