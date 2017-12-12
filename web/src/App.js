@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import "./App.css"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import SignInForm from "./components/SignInForm"
@@ -95,64 +95,111 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <h1>Yarra</h1>
-          <h2 className="mb-3">
-            Now Delivering: Shipping trillions of new products
-          </h2>
-          {signedIn ? (
-            <div className="mb-3">
-              <p>Email: {decodedToken.email}</p>
-              <p>
-                Signed in at: {new Date(decodedToken.iat * 1000).toISOString()}
-              </p>
-              <p>
-                Expire at: {new Date(decodedToken.exp * 1000).toISOString()}
-              </p>
-              <button onClick={this.onSignOut}>Sign Out</button>
-            </div>
-          ) : (
-            <div>
-              <h2>Sign In</h2>
-              <SignInForm onSignIn={this.onSignIn} />
-
-              <h2>Sign Up</h2>
-              <SignUpForm onSignUp={this.onSignUp} />
-            </div>
-          )}
-          {products && (
-            <ProductList
-              products={products}
-              editedProductID={editedProductID}
-              onEditProduct={this.onBeginEditingProduct}
-              onAddProductToWishlist={this.onAddProductToWishlist}
-              onRemoveProductFromWishlist={this.onRemoveProductFromWishlist}
-              renderEditForm={product => (
-                <div className="ml-3">
-                  <ProductForm
-                    initialProduct={product}
-                    submitTitle="Update Product"
-                    onSubmit={this.onUpdateEditedProduct}
-                  />
-                </div>
-              )}
-            />
-          )}
-          {signedIn && (
-            <div className="mb-3">
-              <h2>Create Product</h2>
-              <ProductForm
-                submitTitle="Create Product"
-                onSubmit={this.onCreateProduct}
-              />
-            </div>
-          )}
-          {signedIn &&
-            wishlist && (
-              <Wishlist
-                products={wishlist.products}
-                onRemoveProductFromWishlist={this.onRemoveProductFromWishlist}
-              />
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <Fragment>
+                <h1>Yarra</h1>
+                <h2 className="mb-3">
+                  Now Delivering: Shipping trillions of new products
+                </h2>
+              </Fragment>
             )}
+          />
+
+          <Route
+            path="/signin"
+            exact
+            render={() => (
+              <Fragment>
+                <h2>Sign In</h2>
+                <SignInForm onSignIn={this.onSignIn} />
+              </Fragment>
+            )}
+          />
+
+          <Route
+            path="/signup"
+            exact
+            render={() => (
+              <Fragment>
+                <h2>Sign Up</h2>
+                <SignUpForm onSignUp={this.onSignUp} />
+              </Fragment>
+            )}
+          />
+          <Route path='/account' exact render={ () => (
+            <Fragment>
+              <div className="mb-3">
+                <p>Email: {decodedToken.email}</p>
+                <p>
+                  Signed in at: {new Date(decodedToken.iat * 1000).toISOString()}
+                </p>
+                <p>
+                  Expire at: {new Date(decodedToken.exp * 1000).toISOString()}
+                </p>
+                <button onClick={this.onSignOut}>Sign Out</button>
+              </div>
+            </Fragment>
+          )} />
+         
+         <Route path='/products' exact render={ () => (
+           <Fragment>
+           {products && signedIn && (
+             <ProductList
+               products={products}
+               editedProductID={editedProductID}
+               onEditProduct={this.onBeginEditingProduct}
+               onAddProductToWishlist={this.onAddProductToWishlist}
+               onRemoveProductFromWishlist={this.onRemoveProductFromWishlist}
+               renderEditForm={product => (
+                 <div className="ml-3">
+                   <ProductForm
+                     initialProduct={product}
+                     submitTitle="Update Product"
+                     onSubmit={this.onUpdateEditedProduct}
+                   />
+                 </div>
+               )}
+             />
+           )}
+           </Fragment>
+         )}
+          />   
+        
+        <Route path='/admin/products' exact render={ () => (
+          <Fragment>
+            {signedIn && (
+              <div className="mb-3">
+                <h2>Create Product</h2>
+                <ProductForm
+                  submitTitle="Create Product"
+                  onSubmit={this.onCreateProduct}
+                />
+              </div>
+            )}
+          </Fragment>
+        )}
+        />
+          
+          <Route
+            path="/wishlist"
+            exact
+            render={() => (
+              <Fragment>
+                {signedIn &&
+                  wishlist && (
+                    <Wishlist
+                      products={wishlist.products}
+                      onRemoveProductFromWishlist={
+                        this.onRemoveProductFromWishlist
+                      }
+                    />
+                  )}
+              </Fragment>
+            )}
+          />
         </div>
       </Router>
     )
