@@ -8,7 +8,7 @@ function PrimaryNav({
     <nav className='primary'>
       <ul>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to='products'>Products</Link></li>
+        <li><Link to='/products'>Products</Link></li>
         <li><Link to='/admin/products'>Admin</Link></li>
         {
           signedIn ? (
