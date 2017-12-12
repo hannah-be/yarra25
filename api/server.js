@@ -9,6 +9,10 @@ const server = express()
 server.use(bodyParser.json()) // Allows me to have JSON uploads (POST/PUT/PATCH)
 server.use(cors()) // Allow access from other origins, i.e. our react front-end
 server.use(authMiddleware.initialize) // Kick passport off
+// Error handler middle ware
+server.use((error, req, res, next) => {
+  res.json({ error: { message: error.message } })
+})
 
 // Routes
 server.use([

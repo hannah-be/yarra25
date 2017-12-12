@@ -18,6 +18,7 @@ import PrimaryNav from './components/PrimaryNav'
 
 class App extends Component {
   state = {
+    error: null,
     decodedToken: getDecodedToken(), // Restore the previous signed in data
     products: null,
     editedProductID: null,
@@ -90,7 +91,7 @@ class App extends Component {
   }
 
   render() {
-    const { decodedToken, products, editedProductID, wishlist } = this.state
+    const { decodedToken, products, editedProductID, wishlist, error } = this.state
     const signedIn = !!decodedToken
 
     const requireAuth = (render) => (props) => (
@@ -105,6 +106,9 @@ class App extends Component {
       <Router>
         <div className="App">
         <PrimaryNav signedIn={ signedIn } />
+        { error && 
+        <p>{error.message}</p>
+        }
           <Route
             path="/"
             exact
@@ -215,23 +219,23 @@ class App extends Component {
   }
 
   load() {
+    const saveError = (error) => {
+      this.setState({error})
+    }
     const { decodedToken } = this.state
     if (decodedToken) {
       listProducts()
         .then(products => {
           this.setState({ products })
         })
-        .catch(error => {
-          console.error("error loading products", error)
-        })
+        .catch(saveError)
 
       listWishlist()
         .then(wishlist => {
           this.setState({ wishlist })
         })
-        .catch(error => {
-          console.error("error loading wishlist", error)
-        })
+        .catch(saveError)
+        
     } else {
       this.setState({
         products: null,
