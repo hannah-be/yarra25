@@ -17,7 +17,7 @@ export function getValidToken() {
   try {
     const decodedToken = decodeJWT(token)
     const now = Date.now() / 1000
-    console.log('now', now, 'exp', decodedToken.exp)
+    console.log("now", now, "exp", decodedToken.exp)
     // Check if token has expired
     if (now > decodedToken.exp) {
       return null
