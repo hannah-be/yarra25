@@ -7,8 +7,10 @@ function improveMessage(message) {
   else if (/ 401/.test(message)) {
     return "You must be signed out.";
   }
-  if (/ 500/.test(message)) {
+  else if (/ 500/.test(message)) {
     return "The server is on fire.";
+  } else if (/Network Error/i.test(message)){
+    return 'Cannot connect to API servier (i.e. you need to run yarn dev in the api!!)'
   }
   return message
 }

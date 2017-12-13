@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import "./App.css"
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom"
 import SignInForm from "./components/SignInForm"
 import SignUpForm from "./components/SignUpForm"
 import ProductList from "./components/ProductList"
@@ -125,6 +125,7 @@ class App extends Component {
         { error && 
         <Error error={ error } />
         }
+        <Switch>
           <Route
             path="/"
             exact
@@ -178,13 +179,15 @@ class App extends Component {
                 <button onClick={this.onSignOut}>Sign Out</button>
               </div>
             </Fragment>
-          ))} />
+            ))} 
+           />
          
-         <Route path='/products' exact render={ () => (
+          <Route path='/products' exact render={ () => (
            <Fragment>
-           {products && signedIn && (
+           {products && wishlist &&
              <ProductList
                products={products}
+               productsInWishlist={wishlist.products}
                editedProductID={editedProductID}
                onEditProduct={this.onBeginEditingProduct}
                onAddProductToWishlist={this.onAddProductToWishlist}
@@ -199,9 +202,9 @@ class App extends Component {
                  </div>
                )}
              />
-           )}
+           }
            </Fragment>
-         )}
+           )}
           />   
         
         <Route path='/admin/products' exact render={ requireAuth(() => (
@@ -216,25 +219,30 @@ class App extends Component {
               </div>
             )}
           </Fragment>
-        ))}
+          ))}
         />
           
-          <Route
-            path="/wishlist"
-            exact
-            render={ requireAuth(() => (
-              <Fragment>
-                {wishlist && (
-                    <Wishlist
-                      products={wishlist.products}
-                      onRemoveProductFromWishlist={
-                        this.onRemoveProductFromWishlist
-                      }
-                    />
-                  )}
-              </Fragment>
-            ))}
-          />
+        <Route
+          path="/wishlist"
+          exact
+          render={ requireAuth(() => (
+            <Fragment>
+              {wishlist && (
+                  <Wishlist
+                    products={wishlist.products}
+                    onRemoveProductFromWishlist={
+                      this.onRemoveProductFromWishlist
+                    }
+                  />
+                )}
+            </Fragment>
+          ))}
+        />
+        <Route render={ ({ location }) => (
+          <h2>Page not found: {location.pathname} </h2>
+          )}
+        />
+        </Switch>
         </div>
       </Router>
     )
