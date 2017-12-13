@@ -16,7 +16,9 @@
     "prettier": "^1.9.1"
   },
   "devDependencies": {
-    "nodemon": "^1.12.5"
+    "dotenv": "^4.0.0",
+    "nodemon": "^1.12.5",
+    "now": "^8.5.4"
   },
   "scripts": {
     "dev": "nodemon server.js",
