@@ -1,13 +1,14 @@
 import axios from "axios"
 import { rememberToken, getValidToken } from "./token"
 
+console.log("process.env.REACT_APP_API_URL", process.env.REACT_APP_API_URL);
+
 const api = axios.create({
-  baseURL: "http://localhost:7000"
+  baseURL: process.env.REACT_APP_API_URL
 })
 
 export function setToken(token) {
   rememberToken(token)
-
   if (token) {
     // Set the Authorization header for all requests in the future
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`

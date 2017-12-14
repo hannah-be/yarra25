@@ -45,4 +45,14 @@ router.put('/products/:id', authMiddleware.requireJWT, (req, res) => {
     })
 })
 
+// Delete product
+router.delete('/products/:productID', authMiddleware.requireJWT, (req, res) => {
+  const { productID } = req.params
+  Wishlist.findOneAndDelete(
+    { user: req.user},
+    { $pull: { products: productID} },
+    { upsert: true, new: true, runValidators: true }
+  )
+})
+
 module.exports = router

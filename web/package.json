@@ -17,5 +17,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "prettier": "prettier --no-semi --jsx-bracket-same-line --write \"./src/**/*.js\""
+  },
+  "devDependencies": {
+    "netlify-cli": "^1.2.2"
   }
 }
