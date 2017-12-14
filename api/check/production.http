@@ -1,0 +1,38 @@
+@base_url = https://yarra-api-umgktutsoy.now.sh
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhhbm5haEBoYW5uYWgiLCJpYXQiOjE1MTMyMTE0NTAsImV4cCI6MTUxMzgxNjI1MCwic3ViIjoiNWEzMWM2MzlhZDE1ODgwMDkwMzRkZjc4In0.PyEyApAeZ4w3wA1URojUvJn-7tYQxLlY_jr2nrWvJvU
+
+### List products
+GET {{base_url}}/products
+
+### Register
+POST {{base_url}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "hannah@hannah",
+  "firstName": "Hannah",
+  "lastName": "Bourke",
+  "password": "password123"
+}
+
+### Sign in
+POST {{base_url}}/auth
+Content-Type: application/json
+
+{
+  "email": "hannah@hannah",
+  "password": "password123"
+}
+### Create product
+POST {{base_url}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "brandName": "normann craft",
+  "name": "mortar and pestle - black"
+}
+
+### Delete product
+DELETE {{base_url}}/products/5a31c6e6ad1588009034df79
+Authorization: Bearer {{token}}
